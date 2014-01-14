@@ -9,7 +9,7 @@
 
 Name:           %{target}-newlib
 Version:        2.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING 
@@ -59,5 +59,8 @@ rm -r $RPM_BUILD_ROOT%{_infodir}
 
 
 %changelog
+* Tue Jan 14 2014 Michal Hlavinka <mhlavink@redhat.com> - 2.1.0-2
+- rebuild with newer arm-none-eabi-gcc
+
 * Wed Jan 08 2014 Michal Hlavinka <mhlavink@redhat.com> - 2.1.0-1
 - initial import
