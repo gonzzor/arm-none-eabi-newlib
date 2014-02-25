@@ -9,7 +9,7 @@
 
 Name:           %{target}-newlib
 Version:        2.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING 
@@ -18,6 +18,9 @@ URL:            http://sourceware.org/newlib/
 Source0:        ftp://sourceware.org/pub/newlib/newlib-%{version}.tar.gz
 Source1:        README.fedora
 Source2:        NEWLIB-LICENSING
+
+# from upstream, for newlib <= 2.1.0, rhbz#1058722
+Patch1: arm-none-eabi-newlib-2.1.0-fixpath.patch
 BuildRequires:  %{target}-binutils %{target}-gcc %{target}-gcc-c++ texinfo texinfo-tex
 BuildArch:      noarch
 
@@ -28,7 +31,7 @@ that make them easily usable on embedded products.
 
 %prep
 %setup -q -n newlib-%{version}
-rm -rf libgloss
+%patch1 -p1 -b .fixpath
 cp %{SOURCE1} .
 
 
@@ -37,7 +40,7 @@ CFLAGS="-g -O2" ./configure --prefix=%{_prefix} \
   --libdir=%{_libdir} --mandir=%{_mandir} --infodir=%{_infodir} \
   --target=%{target} --enable-interwork --enable-multilib \
   --with-gnu-as --with-gnu-ld --disable-nls --enable-newlib-io-long-long \
-  --enable-newlib-register-fini --disable-newlib-supplied-syscalls --disable-libgloss 
+  --enable-newlib-register-fini --disable-newlib-supplied-syscalls
 
 make %{?_smp_mflags} || make
 
@@ -59,5 +62,8 @@ rm -r $RPM_BUILD_ROOT%{_infodir}
 
 
 %changelog
+* Tue Feb 25 2014 Michal Hlavinka <mhlavink@redhat.com> - 2.1.0-2
+- enable libnosys (#1060567,#1058722)
+
 * Wed Jan 08 2014 Michal Hlavinka <mhlavink@redhat.com> - 2.1.0-1
 - initial import
