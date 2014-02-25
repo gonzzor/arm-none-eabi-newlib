@@ -1,0 +1,24 @@
+diff -up newlib-2.1.0/libgloss/arm/configure.fixpath newlib-2.1.0/libgloss/arm/configure
+--- newlib-2.1.0/libgloss/arm/configure.fixpath	2014-02-25 16:47:53.211271910 +0100
++++ newlib-2.1.0/libgloss/arm/configure	2014-02-25 16:48:23.914518596 +0100
+@@ -2551,7 +2551,7 @@ esac
+ 
+ 
+ 
+-host_makefile_frag=${srcdir}/../config/default.mh
++host_makefile_frag=`cd $srcdir/../config;pwd`/default.mh
+ 
+ host_makefile_frag_path=$host_makefile_frag
+ 
+diff -up newlib-2.1.0/libgloss/arm/configure.in.fixpath newlib-2.1.0/libgloss/arm/configure.in
+--- newlib-2.1.0/libgloss/arm/configure.in.fixpath	2014-02-25 16:47:46.667219349 +0100
++++ newlib-2.1.0/libgloss/arm/configure.in	2014-02-25 16:49:00.752814447 +0100
+@@ -59,7 +59,7 @@ esac
+ 
+ AC_SUBST(objtype)
+ 
+-host_makefile_frag=${srcdir}/../config/default.mh
++host_makefile_frag=`cd $srcdir/../config;pwd`/default.mh
+ 
+ dnl We have to assign the same value to other variables because autoconf
+ dnl doesn't provide a mechanism to substitute a replacement keyword with
