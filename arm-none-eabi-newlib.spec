@@ -9,7 +9,7 @@
 
 Name:           %{target}-newlib
 Version:        2.1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING 
@@ -62,6 +62,9 @@ rm -r $RPM_BUILD_ROOT%{_infodir}
 
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Tue Feb 25 2014 Michal Hlavinka <mhlavink@redhat.com> - 2.1.0-3
 - enable libnosys (#1060567,#1058722)
 
