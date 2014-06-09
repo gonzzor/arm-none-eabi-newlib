@@ -9,7 +9,7 @@
 
 Name:           %{target}-newlib
 Version:        2.1.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING 
@@ -50,7 +50,12 @@ make install DESTDIR=$RPM_BUILD_ROOT
 rm -r $RPM_BUILD_ROOT%{_infodir}
 
 # despite us being noarch redhat-rpm-config insists on stripping our files
+%if %{fedora}0 > 200
+%global __os_install_post /usr/lib/rpm/brp-compress
+%else
 %global __os_install_post /usr/lib/rpm/redhat/brp-compress
+%endif
+
 
 %files
 %defattr(-,root,root,-)
@@ -62,6 +67,9 @@ rm -r $RPM_BUILD_ROOT%{_infodir}
 
 
 %changelog
+* Mon Jun 09 2014 Michal Hlavinka <mhlavink@redhat.com> - 2.1.0-5
+- fix FTBFS (#1105970)
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.1.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
