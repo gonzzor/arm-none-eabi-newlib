@@ -8,19 +8,18 @@
 %global target arm-none-eabi
 
 Name:           %{target}-newlib
-Version:        2.1.0
-Release:        5%{?dist}
+Version:        2.2.0_1
+Release:        1%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING 
 License:        BSD and MIT and LGPLv2+ and ISC
 URL:            http://sourceware.org/newlib/
-Source0:        ftp://sourceware.org/pub/newlib/newlib-%{version}.tar.gz
+#Source0:        ftp://sourceware.org/pub/newlib/newlib-%{version}.tar.gz
+Source0:        ftp://sourceware.org/pub/newlib/newlib-2.2.0-1.tar.gz
 Source1:        README.fedora
 Source2:        NEWLIB-LICENSING
 
-# from upstream, for newlib <= 2.1.0, rhbz#1058722
-Patch1: arm-none-eabi-newlib-2.1.0-fixpath.patch
 BuildRequires:  %{target}-binutils %{target}-gcc %{target}-gcc-c++ texinfo texinfo-tex
 BuildArch:      noarch
 
@@ -30,8 +29,8 @@ conglomeration of several library parts, all under free software licenses
 that make them easily usable on embedded products.
 
 %prep
-%setup -q -n newlib-%{version}
-%patch1 -p1 -b .fixpath
+#%setup -q -n newlib-%{version}
+%setup -q -n newlib-2.2.0-1
 cp %{SOURCE1} .
 
 
@@ -39,10 +38,11 @@ cp %{SOURCE1} .
 CFLAGS="-g -O2" ./configure --prefix=%{_prefix} \
   --libdir=%{_libdir} --mandir=%{_mandir} --infodir=%{_infodir} \
   --target=%{target} --enable-interwork --enable-multilib \
-  --with-gnu-as --with-gnu-ld --disable-nls --enable-newlib-io-long-long \
-  --enable-newlib-register-fini --disable-newlib-supplied-syscalls
+  --with-gnu-as --with-gnu-ld --disable-nls --disable-libssp --disable-nls --disable-newlib-supplied-syscalls --with-float=soft
 
-make %{?_smp_mflags} || make
+#  --enable-newlib-io-long-long \
+#  --enable-newlib-register-fini --disable-newlib-supplied-syscalls
+make
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
@@ -67,6 +67,9 @@ rm -r $RPM_BUILD_ROOT%{_infodir}
 
 
 %changelog
+* Tue Apr 14 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-1
+- newlib updated to 2.2.0_1
+
 * Mon Jun 09 2014 Michal Hlavinka <mhlavink@redhat.com> - 2.1.0-5
 - fix FTBFS (#1105970)
 
