@@ -9,7 +9,7 @@
 
 Name:           %{target}-newlib
 Version:        2.2.0_1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING 
@@ -67,6 +67,9 @@ rm -r $RPM_BUILD_ROOT%{_infodir}
 
 
 %changelog
+* Mon Jun 01 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-2
+- rebuild for gcc 5.1
+
 * Tue Apr 14 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-1
 - newlib updated to 2.2.0_1
 
