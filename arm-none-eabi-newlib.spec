@@ -9,7 +9,7 @@
 
 Name:           %{target}-newlib
 Version:        2.2.0_1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING 
@@ -51,8 +51,10 @@ rm -r $RPM_BUILD_ROOT%{_infodir}
 
 # despite us being noarch redhat-rpm-config insists on stripping our files
 %if %{fedora}0 > 200
+echo "Fedora > 20"
 %global __os_install_post /usr/lib/rpm/brp-compress
 %else
+echo "Fedora <= 20"
 %global __os_install_post /usr/lib/rpm/redhat/brp-compress
 %endif
 
@@ -67,6 +69,9 @@ rm -r $RPM_BUILD_ROOT%{_infodir}
 
 
 %changelog
+* Mon Jun 01 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-2
+- rebuild for gcc 5.1
+
 * Tue Apr 14 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-1
 - newlib updated to 2.2.0_1
 
