@@ -9,7 +9,7 @@
 
 Name:           %{target}-newlib
 Version:        2.2.0_1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING 
@@ -67,6 +67,9 @@ rm -r $RPM_BUILD_ROOT%{_infodir}
 
 
 %changelog
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.0_1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Mon Jun 01 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-2
 - rebuild for gcc 5.1
 
