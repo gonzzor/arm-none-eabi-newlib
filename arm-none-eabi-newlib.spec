@@ -6,17 +6,17 @@
 %global _binaries_in_noarch_packages_terminate_build 0
 
 %global target arm-none-eabi
+%global pkg_version 2.2.0-1
 
 Name:           %{target}-newlib
 Version:        2.2.0_1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
-# For a breakdown of the licensing, see NEWLIB-LICENSING 
+# For a breakdown of the licensing, see NEWLIB-LICENSING
 License:        BSD and MIT and LGPLv2+ and ISC
 URL:            http://sourceware.org/newlib/
-#Source0:        ftp://sourceware.org/pub/newlib/newlib-%{version}.tar.gz
-Source0:        ftp://sourceware.org/pub/newlib/newlib-2.2.0-1.tar.gz
+Source0:        ftp://sourceware.org/pub/newlib/newlib-%{pkg_version}.tar.gz
 Source1:        README.fedora
 Source2:        NEWLIB-LICENSING
 
@@ -29,26 +29,88 @@ conglomeration of several library parts, all under free software licenses
 that make them easily usable on embedded products.
 
 %prep
-#%setup -q -n newlib-%{version}
-%setup -q -n newlib-2.2.0-1
-cp %{SOURCE1} .
+%setup -q -n newlib-%{pkg_version}
 
 
 %build
-CFLAGS="-g -O2" ./configure --prefix=%{_prefix} \
-  --libdir=%{_libdir} --mandir=%{_mandir} --infodir=%{_infodir} \
-  --target=%{target} --enable-interwork --enable-multilib \
-  --with-gnu-as --with-gnu-ld --disable-nls --disable-libssp --disable-nls --disable-newlib-supplied-syscalls --with-float=soft
+# ARCH AND UBUNTU HAVE
+# --enable-newlib-io-long-long \
+# --enable-newlib-register-fini \
+# ARCH AND UBUNTU DON'T HAVE
+# --enable-interwork \
+# --enable-multilib \
 
-#  --enable-newlib-io-long-long \
-#  --enable-newlib-register-fini --disable-newlib-supplied-syscalls
+
+# END FROM
+rm -rf build-{newlib,nano}
+mkdir build-{newlib,nano}
+
+pushd build-newlib
+
+export CFLAGS="-g -O2 -ffunction-sections -fdata-sections"
+../configure \
+    --prefix=%{_prefix} \
+    --libdir=%{_libdir} \
+    --mandir=%{_mandir} \
+    --htmldir=%{_docdir}/html \
+    --pdfdir=%{_docdir}/pdf \
+    --target=%{target} \
+    --enable-interwork \
+    --enable-multilib \
+    --disable-nls \
+    --disable-libssp \
+    --disable-nls \
+    --disable-newlib-supplied-syscalls \
+    --with-float=soft
+
 make
 
-%install
-make install DESTDIR=$RPM_BUILD_ROOT
-# we don't want these as we are a cross version
-rm -r $RPM_BUILD_ROOT%{_infodir}
+popd
+pushd build-nano
+export CFLAGS="-g -Os -ffunction-sections -fdata-sections"
+../configure \
+    --prefix=%{_prefix} \
+    --libdir=%{_libdir} \
+    --mandir=%{_mandir} \
+    --target=%{target} \
+    --disable-nls \
+    --disable-newlib-supplied-syscalls \
+    --enable-newlib-reent-small \
+    --disable-newlib-fvwrite-in-streamio \
+    --disable-newlib-fseek-optimization \
+    --disable-newlib-wide-orient \
+    --enable-newlib-nano-malloc \
+    --disable-newlib-unbuf-stream-opt \
+    --enable-lite-exit \
+    --enable-newlib-global-atexit \
+    --enable-newlib-nano-formatted-io
 
+make
+
+popd
+
+%install
+pushd build-newlib
+make install DESTDIR=%{buildroot}
+popd
+pushd build-nano
+NANO_ROOT=%{buildroot}/nano
+make install DESTDIR=$NANO_ROOT
+
+for i in $(find $NANO_ROOT -regex ".*/lib\(c\|g\|rdimon\)\.a"); do
+    file=$(basename $i | sed "s|\.a|_nano\.a|")
+    target_path=$(dirname $i | sed "s|$NANO_ROOT||")
+    mv $i "%{buildroot}$target_path/$file"
+done
+popd
+
+cp %{SOURCE1} .
+cp %{SOURCE2} .
+
+# we don't want these as we are a cross version
+rm -r %{buildroot}%{_infodir}
+
+rm -rf $NANO_ROOT
 # despite us being noarch redhat-rpm-config insists on stripping our files
 %if %{fedora}0 > 200
 %global __os_install_post /usr/lib/rpm/brp-compress
@@ -59,14 +121,20 @@ rm -r $RPM_BUILD_ROOT%{_infodir}
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING* README.fedora
+%doc README.fedora
+%license NEWLIB-LICENSING COPYING*
 %dir %{_prefix}/%{target}
+%dir %{_prefix}/%{target}/include/
+%{_prefix}/%{target}/include/*
 %dir %{_prefix}/%{target}/lib
-%{_prefix}/%{target}/include/
 %{_prefix}/%{target}/lib/*
 
-
 %changelog
+* Mon Aug 31 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-4
+- added nano versions of libraries
+- cleaned up spec file
+- credits: Johnny Robeson
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.0_1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
