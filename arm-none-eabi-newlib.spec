@@ -10,7 +10,7 @@
 
 Name:           %{target}-newlib
 Version:        2.2.0_1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING
@@ -33,15 +33,6 @@ that make them easily usable on embedded products.
 
 
 %build
-# ARCH AND UBUNTU HAVE
-# --enable-newlib-io-long-long \
-# --enable-newlib-register-fini \
-# ARCH AND UBUNTU DON'T HAVE
-# --enable-interwork \
-# --enable-multilib \
-
-
-# END FROM
 rm -rf build-{newlib,nano}
 mkdir build-{newlib,nano}
 
@@ -57,6 +48,7 @@ export CFLAGS="-g -O2 -ffunction-sections -fdata-sections"
     --target=%{target} \
     --enable-interwork \
     --enable-multilib \
+    --enable-newlib-io-long-long \
     --disable-nls \
     --disable-libssp \
     --disable-nls \
@@ -130,6 +122,9 @@ rm -rf $NANO_ROOT
 %{_prefix}/%{target}/lib/*
 
 %changelog
+* Wed Sep 02 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-5
+- add --enable-newlib-io-long-long configure option
+
 * Mon Aug 31 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-4
 - added nano versions of libraries
 - cleaned up spec file
