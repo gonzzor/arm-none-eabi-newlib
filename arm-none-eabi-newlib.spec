@@ -10,7 +10,7 @@
 
 Name:           %{target}-newlib
 Version:        2.2.0_1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING
@@ -122,6 +122,9 @@ rm -rf $NANO_ROOT
 %{_prefix}/%{target}/lib/*
 
 %changelog
+* Wed Sep 02 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-6
+- bump release and rebuild
+
 * Wed Sep 02 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-5
 - add --enable-newlib-io-long-long configure option
 
