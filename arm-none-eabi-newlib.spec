@@ -33,15 +33,6 @@ that make them easily usable on embedded products.
 
 
 %build
-# ARCH AND UBUNTU HAVE
-# --enable-newlib-io-long-long \
-# --enable-newlib-register-fini \
-# ARCH AND UBUNTU DON'T HAVE
-# --enable-interwork \
-# --enable-multilib \
-
-
-# END FROM
 rm -rf build-{newlib,nano}
 mkdir build-{newlib,nano}
 
@@ -57,6 +48,7 @@ export CFLAGS="-g -O2 -ffunction-sections -fdata-sections"
     --target=%{target} \
     --enable-interwork \
     --enable-multilib \
+    --enable-newlib-io-long-long \
     --disable-nls \
     --disable-libssp \
     --disable-nls \
