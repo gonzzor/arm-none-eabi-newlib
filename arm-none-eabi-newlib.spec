@@ -10,7 +10,7 @@
 
 Name:           %{target}-newlib
 Version:        2.2.0_1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING
@@ -122,6 +122,9 @@ rm -rf $NANO_ROOT
 %{_prefix}/%{target}/lib/*
 
 %changelog
+* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0_1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Wed Sep 02 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-6
 - bump release and rebuild
 
