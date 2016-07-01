@@ -6,11 +6,11 @@
 %global _binaries_in_noarch_packages_terminate_build 0
 
 %global target arm-none-eabi
-%global pkg_version 2.2.0-1
+%global pkg_version 2.4.0
 
 Name:           %{target}-newlib
-Version:        2.2.0_1
-Release:        6%{?dist}
+Version:        2.4.0
+Release:        7%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING
@@ -122,6 +122,12 @@ rm -rf $NANO_ROOT
 %{_prefix}/%{target}/lib/*
 
 %changelog
+* Fri Jul 01 2016 Michal Hlavinka <mhlavink@redhat.com> - 2.4.0-7
+- updated to 2.4.0
+
+* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0_1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Wed Sep 02 2015 Michal Hlavinka <mhlavink@redhat.com> - 2.2.0_1-6
 - bump release and rebuild
 
