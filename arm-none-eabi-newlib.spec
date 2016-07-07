@@ -100,7 +100,7 @@ cp %{SOURCE1} .
 cp %{SOURCE2} .
 
 # we don't want these as we are a cross version
-rm -r %{buildroot}%{_infodir}
+rm -rf %{buildroot}%{_infodir}
 
 rm -rf $NANO_ROOT
 # despite us being noarch redhat-rpm-config insists on stripping our files
