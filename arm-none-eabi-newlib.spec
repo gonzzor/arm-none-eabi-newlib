@@ -10,7 +10,7 @@
 
 Name:           %{target}-newlib
 Version:        2.4.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        C library intended for use on %{target} embedded systems
 Group:          Development/Tools
 # For a breakdown of the licensing, see NEWLIB-LICENSING
@@ -122,7 +122,10 @@ rm -rf $NANO_ROOT
 %{_prefix}/%{target}/lib/*
 
 %changelog
-* Fri Jul 01 2016 Michal Hlavinka <mhlavink@redhat.com> - 2.4.0-7
+* Sun Nov 13 2016 Michal Hlavinka <mhlavink@redhat.com> - 2.4.0-8
+- bump release and rebuild
+
+* Thu Jun 30 2016 Michal Hlavinka <mhlavink@redhat.com> - 2.4.0-7
 - updated to 2.4.0
 
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.0_1-7
