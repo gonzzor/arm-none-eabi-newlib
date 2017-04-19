@@ -38,7 +38,7 @@ mkdir build-{newlib,nano}
 
 pushd build-newlib
 
-export CFLAGS="-g -O2 -ffunction-sections -fdata-sections"
+export CFLAGS_FOR_TARGET="-g -O2 -ffunction-sections -fdata-sections"
 ../configure \
     --prefix=%{_prefix} \
     --libdir=%{_libdir} \
@@ -59,7 +59,7 @@ make
 
 popd
 pushd build-nano
-export CFLAGS="-g -Os -ffunction-sections -fdata-sections"
+export CFLAGS_FOR_TARGET="-g -Os -ffunction-sections -fdata-sections"
 ../configure \
     --prefix=%{_prefix} \
     --libdir=%{_libdir} \
